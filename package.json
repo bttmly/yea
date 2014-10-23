@@ -1,0 +1,15 @@
+{
+  "name": "libinit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "jslib.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^2.4.0",
+    "npm": "^2.1.4"
+  }
+}
