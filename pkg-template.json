@@ -1,0 +1,16 @@
+{
+  "name": "",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R spec ./test"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "2.0.0",
+    "chai": "1.9.2"
+  }
+}

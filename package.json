@@ -9,7 +9,10 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "async": "^0.9.0",
     "commander": "^2.4.0",
+    "demethodize": "^0.2.0",
+    "exec-sync": "^0.1.6",
     "npm": "^2.1.4"
   }
 }
