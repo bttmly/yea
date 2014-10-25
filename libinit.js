@@ -11,10 +11,11 @@ function handleError (err) {
   if (err) throw err;
 }
 
-function spread (fn) {
+function spread (fn, ctx) {
+  ctx = ctx || null;
   return function (arr) {
-    return fn.apply(null, arr);
-  }
+    return fn.apply(ctx, arr);
+  };
 }
 
 // or 2?
@@ -30,25 +31,29 @@ var mkdir = demethodize(fs.mkdir);
 var pkg = require("./pkg-template.json");
 var gitig = fs.readFileSync("./.gitignore");
 
+var nmDir = path.join(projectDir, "node_modules");
+var libDir = path.join(projectDir, "lib");
+var testDir = path.join(projectDir, "test");
+
 // main directory
 fs.mkdirSync(projectDir);
 
 function makeDirectories (done) {
   async.map([
-    path.join(projectDir, "node_modules"),
-    path.join(projectDir, "lib"),
-    path.join(projectDir, "test")
-  ], fs.mkdir, done )
+    nmDir,
+    libDir,
+    testDir
+  ], fs.mkdir, done)
 }
 
 function writeFiles (done) {
   async.map([
-    path.join(projectName, "package.json"), JSON.stringify(pkg), done),
-    path.join(projectName, ".gitignore"), gitig, done),
-    path.join(projectName, "index.js"), "module.exports = require(\"./lib\")", done),
-    path.join(libDir, "index.js"), "module.exports = {}"),
-    path.join(testDir, "index.js"), "var lib = require(\"..\")", done)
-  ], fs.writeFile, done );
+    [path.join(projectName, "package.json"), JSON.stringify(pkg, null, 2)],
+    [path.join(projectName, ".gitignore"), gitig],
+    [path.join(projectName, "index.js"), "module.exports = require(\"./lib\")"],
+    [path.join(libDir, "index.js"), "module.exports = {}"],
+    [path.join(testDir, "index.js"), "var lib = require(\"..\")"],
+  ], spread(fs.writeFile), done);
 }
 
 function installDependencies (done) {
@@ -69,4 +74,4 @@ async.series([
 ], function (err) {
   if (err) throw err;
   console.log(done);
-})
+});
